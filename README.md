@@ -24,7 +24,7 @@ The plugin uses the **Pi-hole v6+ REST API** (`/api/*`). No API token in the UI;
 - Optional: `PIHOLE_PASSWORD` in `.env` or via API Keys if your Pi-hole is password-protected.
 - Optional: “Allow insecure HTTPS” if using Pi-hole’s self-signed certificate over HTTPS.
 
-No additional Python dependencies beyond InkyPi (uses `requests` from the core stack).
+No additional Python dependencies.
 
 ---
 
@@ -59,7 +59,7 @@ Then add a Pi-hole instance to a playlist (e.g. “Default”), set the Pi-hole 
 
 ## Development status
 
-Feature complete. May be updated for Pi-hole API changes or small improvements as needed.
+Work in progress.
 
 ---
 
