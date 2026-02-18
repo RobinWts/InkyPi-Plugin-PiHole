@@ -1,0 +1,199 @@
+<details class="pihole-info-box">
+    <summary class="pihole-info-box-header">
+        <span class="pihole-info-box-icon" aria-hidden="true">ℹ️</span>
+        <span class="pihole-info-box-title">Pi-hole Version & Configuration Notes (click to expand)</span>
+    </summary>
+    <div class="pihole-info-box-body">
+        <p><strong>Version Requirement:</strong> This plugin requires <strong>Pi-hole v6 or later</strong>. It uses
+            the modern REST API (<code>/api/*</code>) and does not support older token-based APIs.</p>
+        <p><strong>Authentication:</strong> If your Pi-hole has <strong>no password</strong> set, this plugin can
+            query the API without authentication.
+            If your Pi-hole is password protected, set <code>PIHOLE_PASSWORD=your_password_or_app_password</code>
+            via the <strong>API Keys</strong> page in the web UI or in your <code>.env</code> file.</p>
+        <p><strong>Self-Signed Certificates:</strong> Pi-hole v6+ automatically creates self-signed SSL
+            certificates. If you're using HTTPS and getting SSL errors, enable "Allow insecure HTTPS" below.</p>
+    </div>
+</details>
+<style>
+.pihole-info-box {
+    padding: 16px;
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.pihole-info-box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+    color: var(--text-primary, #333);
+    font-size: 14px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+.pihole-info-box-header::-webkit-details-marker { display: none; }
+.pihole-info-box-header::marker { display: none; }
+.pihole-info-box-icon { font-size: 20px; flex-shrink: 0; }
+.pihole-info-box-title { flex: 1; }
+.pihole-info-box-body {
+    margin-top: 12px;
+    padding-left: 32px;
+}
+.pihole-info-box-body p {
+    margin: 0 0 8px 0;
+    color: var(--text-secondary, #666);
+    font-size: 13px;
+    line-height: 1.5;
+}
+.pihole-info-box-body p:last-child { margin-bottom: 0; }
+.pihole-info-box-body ul {
+    margin: 4px 0 8px 0;
+    padding-left: 20px;
+    color: var(--text-secondary, #666);
+    font-size: 13px;
+    line-height: 1.5;
+}
+.pihole-info-box-body li {
+    margin-bottom: 4px;
+}
+.pihole-info-box-body a {
+    color: rgba(33, 150, 243, 0.9);
+    text-decoration: underline;
+}
+.pihole-info-box-body a:hover {
+    color: rgba(33, 150, 243, 1);
+}
+</style>
+
+<div class="form-group">
+    <div class="form-group nowrap">
+        <label for="piholeUrl" class="form-label">Pi-hole URL:</label>
+        <input type="text" id="piholeUrl" name="piholeUrl" placeholder="http://192.168.1.100" required class="form-input">
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="form-group nowrap">
+        <input type="checkbox" id="allowInsecureSSL" name="allowInsecureSSL" value="true" class="form-checkbox">
+        <label for="allowInsecureSSL" class="form-label" style="margin-left: 8px;">
+            Allow insecure HTTPS (self-signed certificate)
+        </label>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="form-label">Display Options:</label>
+    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="form-group nowrap">
+            <label for="customTitle" class="form-label">Custom Title (optional):</label>
+            <input type="text" id="customTitle" name="customTitle" class="form-input" placeholder="e.g. Pi-hole Statistics">
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showTitle" name="showTitle" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showTitle" value="false">
+            <label for="showTitle" class="form-label" style="margin-left: 8px;">Show title row</label>
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showStatus" name="showStatus" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showStatus" value="false">
+            <label for="showStatus" class="form-label" style="margin-left: 8px;">Show status (Enabled/Disabled)</label>
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showQueries" name="showQueries" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showQueries" value="false">
+            <label for="showQueries" class="form-label" style="margin-left: 8px;">Show queries (total, blocked, %)</label>
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showQueriesGraph" name="showQueriesGraph" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showQueriesGraph" value="false">
+            <label for="showQueriesGraph" class="form-label" style="margin-left: 8px;">Show queries bar graph</label>
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showClients" name="showClients" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showClients" value="false">
+            <label for="showClients" class="form-label" style="margin-left: 8px;">Show active clients</label>
+        </div>
+        <div class="form-group nowrap">
+            <input type="checkbox" id="showBlocklist" name="showBlocklist" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showBlocklist" value="false">
+            <label for="showBlocklist" class="form-label" style="margin-left: 8px;">Show blocklist domains</label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fontFamily" class="form-label">Font Family:</label>
+    <select id="fontFamily" name="fontFamily" class="form-input">
+        {% for font in font_families %}
+        <option value="{{ font }}" {% if font == 'Jost' %}selected{% endif %}>{{ font }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="fontWeight" class="form-label">Font Weight:</label>
+    <select id="fontWeight" name="fontWeight" class="form-input">
+        {% for w in font_weights %}
+        <option value="{{ w }}" {% if w == 'bold' %}selected{% endif %}>{{ w | capitalize }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="fontSize" class="form-label">Font Size:</label>
+    <select id="fontSize" name="fontSize" class="form-input">
+        <option value="x-small">Extra Small</option>
+        <option value="small">Small</option>
+        <option value="normal" selected>Normal</option>
+        <option value="large">Large</option>
+        <option value="x-large">Extra Large</option>
+    </select>
+</div>
+
+<details class="pihole-info-box">
+    <summary class="pihole-info-box-header">
+        <span class="pihole-info-box-icon" aria-hidden="true">🔘</span>
+        <span class="pihole-info-box-title">Hardware buttons registration (click to expand)</span>
+    </summary>
+    <div class="pihole-info-box-body">
+        <p><strong>Hardware Button Actions:</strong> This plugin registers actions that can be bound to physical buttons using the Hardware Buttons plugin.</p>
+        <p><strong>Anytime Action:</strong></p>
+        <ul>
+            <li><strong>Show Pihole:</strong> Forces the Pi-hole plugin to display immediately, regardless of what is currently shown. <strong>Requires:</strong> At least one Pi-hole plugin instance must exist in a playlist. If no instance exists, the action will do nothing.</li>
+        </ul>
+        <p><strong>Display Actions</strong> (only work when Pi-hole is currently displayed):</p>
+        <ul>
+            <li><strong>Display Action 1:</strong> Toggle blocking — Switches blocking on or off based on current status.</li>
+            <li><strong>Display Action 2:</strong> Blocking off — Disables blocking permanently.</li>
+            <li><strong>Display Action 3:</strong> Blocking on — Enables blocking.</li>
+            <li><strong>Display Action 4:</strong> Blocking off 5 minutes — Temporarily disables blocking for 5 minutes.</li>
+            <li><strong>Display Action 5:</strong> Blocking off 30 minutes — Temporarily disables blocking for 30 minutes.</li>
+            <li><strong>Display Action 6:</strong> Blocking off 1 hour — Temporarily disables blocking for 1 hour.</li>
+        </ul>
+        <p><strong>Plugin Required:</strong> To use these actions, you need to install the <strong>Hardware Buttons</strong> plugin. After installation, configure buttons in the Hardware Buttons plugin settings and bind them to these actions.</p>
+        <p><strong>Installation:</strong> The Hardware Buttons plugin can be found at <a href="https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons" target="_blank" rel="noopener noreferrer">https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons</a></p>
+    </div>
+</details>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (loadPluginSettings) {
+            document.getElementById('piholeUrl').value = pluginSettings.piholeUrl || '';
+            document.getElementById('allowInsecureSSL').checked = pluginSettings.allowInsecureSSL === 'true' || pluginSettings.allowInsecureSSL === true;
+            document.getElementById('customTitle').value = pluginSettings.customTitle || '';
+
+            document.getElementById('showTitle').checked = pluginSettings.showTitle !== 'false';
+            document.getElementById('showStatus').checked = pluginSettings.showStatus !== 'false';
+            document.getElementById('showQueries').checked = pluginSettings.showQueries !== 'false';
+            document.getElementById('showQueriesGraph').checked = pluginSettings.showQueriesGraph !== 'false';
+            document.getElementById('showClients').checked = pluginSettings.showClients !== 'false';
+            document.getElementById('showBlocklist').checked = pluginSettings.showBlocklist !== 'false';
+
+            document.getElementById('fontFamily').value = pluginSettings.fontFamily || 'Jost';
+            document.getElementById('fontWeight').value = pluginSettings.fontWeight || 'bold';
+            document.getElementById('fontSize').value = pluginSettings.fontSize || 'normal';
+        }
+    });
+</script>

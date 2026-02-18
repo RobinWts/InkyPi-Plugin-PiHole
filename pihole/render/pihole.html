@@ -1,0 +1,80 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+{% if rate_limited %}
+<div class="pihole-rate-limit" style="
+    font-family: {{ plugin_settings.fontFamily|default('Jost') }};
+    color: {{ plugin_settings.textColor|default('#000000') }};
+">
+    <span class="pihole-rate-limit-message">Rate limit exceeded, try again later.</span>
+</div>
+{% else %}
+<div class="pihole-dashboard" style="
+    --font-family: {{ font_family }};
+    --font-weight: {{ font_weight }};
+    --font-scale: {{ font_scale }};
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+">
+    {% if show_title %}
+    <div class="pihole-title">{{ custom_title }}</div>
+    {% endif %}
+
+    {% if show_status %}
+    <div class="pihole-status status-{{ stats.status|default('enabled') }}">
+        {% if (stats.status|default('enabled'))|lower == 'enabled' %}
+        BLOCKING ENABLED
+        {% else %}
+        BLOCKING DISABLED
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if show_queries %}
+    <div class="pihole-section pihole-queries">
+        <div class="section-label">Queries</div>
+        <div class="queries-row">
+            <div class="query-item">
+                <span class="query-value">{{ stats.dns_queries_today or 0 }}</span>
+                <span class="query-label">Total</span>
+            </div>
+            <div class="query-item">
+                <span class="query-value blocked">{{ stats.ads_blocked_today or 0 }}</span>
+                <span class="query-label">Blocked</span>
+            </div>
+            <div class="query-item">
+                <span class="query-value">{{ "%.1f"|format(stats.ads_percentage_today or 0) }}%</span>
+                <span class="query-label">Blocked %</span>
+            </div>
+        </div>
+        {% if show_queries_graph %}
+        <div class="queries-bar-container">
+            <div class="queries-bar-track">
+                <div class="queries-bar-fill"
+                    style="width: {{ [ (stats.ads_percentage_today or 0)|float, 100 ]|min }}%"></div>
+            </div>
+            <div class="queries-bar-legend">
+                <span>Blocked</span>
+                <span>{{ "%.1f"|format(stats.ads_percentage_today or 0) }}%</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if show_clients %}
+    <div class="pihole-section pihole-clients">
+        <div class="section-label">Active Clients</div>
+        <div class="section-value">{{ stats.active_clients or 0 }}</div>
+    </div>
+    {% endif %}
+
+    {% if show_blocklist %}
+    <div class="pihole-section pihole-blocklist">
+        <div class="section-label">Blocklist</div>
+        <div class="section-value">{{ stats.domains_being_blocked or 0 }}</div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
