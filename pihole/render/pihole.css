@@ -155,6 +155,139 @@ body {
     opacity: 0.9;
 }
 
+.queries-forwarded-row {
+    margin-top: 0.5vh;
+}
+
+/* Top clients list */
+.pihole-top-clients .top-clients-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-client-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4vh 0;
+    font-size: calc(min(2.8vh, 2.2vw) * var(--font-scale, 1));
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.top-client-item:last-child {
+    border-bottom: none;
+}
+
+.top-client-name {
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 70%;
+}
+
+.top-client-count {
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-left: 1vw;
+}
+
+.top-clients-unavailable {
+    font-size: calc(min(2.5vh, 2vw) * var(--font-scale, 1));
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* 24h history chart - bar chart with green (allowed) and red (blocked) */
+.pihole-history-chart .history-chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+    margin-top: 0.5vh;
+}
+
+.history-chart-bars {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 2px;
+    height: calc(min(14vh, 100px) * var(--font-scale, 1));
+    padding: 0 0.5vw;
+}
+
+.history-bar-wrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.history-bar {
+    width: 100%;
+    max-width: 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    background: transparent;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+}
+
+.history-bar-segment {
+    width: 100%;
+    min-height: 1px;
+    flex-shrink: 0;
+}
+
+.history-bar-allowed {
+    background-color: #4caf50;
+}
+
+.history-bar-blocked {
+    background-color: #c62828;
+}
+
+.history-chart-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: calc(min(2vh, 1.6vw) * var(--font-scale, 1));
+    opacity: 0.8;
+    padding: 0 0.5vw;
+}
+
+.history-chart-legend {
+    display: flex;
+    gap: 1.5vw;
+    justify-content: center;
+    margin-top: 0.3vh;
+    font-size: calc(min(2vh, 1.6vw) * var(--font-scale, 1));
+    opacity: 0.9;
+}
+
+.history-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.history-legend-swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+}
+
+.history-legend-allowed {
+    background-color: #4caf50;
+}
+
+.history-legend-blocked {
+    background-color: #c62828;
+}
+
 /* Orientation-aware: horizontal layout when wide */
 @media (min-aspect-ratio: 4/3) {
     .pihole-dashboard {
@@ -180,5 +313,10 @@ body {
     .pihole-queries {
         flex: 2 1 calc(66% - 1vw);
         min-width: min(50vw, 250px);
+    }
+
+    .pihole-history-chart {
+        flex: 2 1 100%;
+        min-width: min(80vw, 400px);
     }
 }

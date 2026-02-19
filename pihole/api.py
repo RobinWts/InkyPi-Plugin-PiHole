@@ -241,60 +241,79 @@ def _register_actions(state):
             logger.error(f"pihole: error getting blocking status: {e}")
             return None
 
-    def display_toggle_blocking(refs):
-        """Display action 1: toggle blocking status."""
+    # Action implementations (action_type string -> callback)
+    def _do_toggle(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
-
         current_status = _get_blocking_status(refs)
         if current_status is None:
             logger.warning("pihole: could not determine current blocking status")
             return
-
-        new_status = not current_status
-        if _set_blocking(refs, new_status):
+        if _set_blocking(refs, not current_status):
             _force_refresh(refs, playlist, current_instance)
 
-    def display_blocking_off(refs):
-        """Display action 2: set blocking to off (permanent)."""
+    def _do_blocking_off(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
         if _set_blocking(refs, False):
             _force_refresh(refs, playlist, current_instance)
 
-    def display_blocking_on(refs):
-        """Display action 3: set blocking to on."""
+    def _do_blocking_on(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
         if _set_blocking(refs, True):
             _force_refresh(refs, playlist, current_instance)
 
-    def display_blocking_off_5min(refs):
-        """Display action 4: disable blocking for 5 minutes."""
+    def _do_blocking_off_5min(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
         if _set_blocking(refs, False, timer_seconds=300):
             _force_refresh(refs, playlist, current_instance)
 
-    def display_blocking_off_30min(refs):
-        """Display action 5: disable blocking for 30 minutes."""
+    def _do_blocking_off_30min(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
         if _set_blocking(refs, False, timer_seconds=1800):
             _force_refresh(refs, playlist, current_instance)
 
-    def display_blocking_off_1hour(refs):
-        """Display action 6: disable blocking for 1 hour."""
+    def _do_blocking_off_1hour(refs):
         playlist, current_instance = _get_displayed_pihole_instance(refs)
         if not current_instance:
             return
         if _set_blocking(refs, False, timer_seconds=3600):
             _force_refresh(refs, playlist, current_instance)
+
+    ACTION_IMPL = {
+        "toggle": _do_toggle,
+        "off": _do_blocking_off,
+        "on": _do_blocking_on,
+        "off_5m": _do_blocking_off_5min,
+        "off_30m": _do_blocking_off_30min,
+        "off_1h": _do_blocking_off_1hour,
+    }
+    DEFAULT_SLOT_MAPPING = ["toggle", "off", "on", "off_5m", "off_30m", "off_1h"]
+
+    def make_display_slot_handler(slot_index):
+        """Return a callback that dispatches to the action mapped for this slot in instance settings."""
+        def handler(refs):
+            playlist, current_instance = _get_displayed_pihole_instance(refs)
+            if not current_instance:
+                return
+            settings = current_instance.settings
+            key = f"displayAction{slot_index + 1}"
+            action_type = settings.get(key, DEFAULT_SLOT_MAPPING[slot_index])
+            impl = ACTION_IMPL.get(action_type)
+            if impl:
+                impl(refs)
+            else:
+                logger.warning("pihole: unknown displayAction%d value '%s', using default", slot_index + 1, action_type)
+                ACTION_IMPL.get(DEFAULT_SLOT_MAPPING[slot_index])(refs)
+        return handler
 
     action_registry.register_actions(
         plugin_id="pihole",
@@ -304,13 +323,6 @@ def _register_actions(state):
                 "callback": anytime_show_pihole,
             }
         },
-        display_actions=[
-            display_toggle_blocking,      # Display Action 1
-            display_blocking_off,          # Display Action 2
-            display_blocking_on,           # Display Action 3
-            display_blocking_off_5min,     # Display Action 4
-            display_blocking_off_30min,    # Display Action 5
-            display_blocking_off_1hour,    # Display Action 6
-        ],
+        display_actions=[make_display_slot_handler(i) for i in range(6)],
     )
-    logger.info("pihole: registered 1 anytime + 6 display actions")
+    logger.info("pihole: registered 1 anytime + 6 display actions (configurable mapping)")

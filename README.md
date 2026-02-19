@@ -8,7 +8,10 @@
 
 - **Status** — Shows whether DNS blocking is **blocking enabled** or **blocking disabled** with a coloured badge.
 - **Queries** — Displays total queries today, blocked count, and blocked percentage. Optional bar graph for blocked percentage.
+- **Queries forwarded/cached** — Optionally shows forwarded and cached query counts (between Queries and Active Clients).
 - **Active clients** — Number of unique clients seen today.
+- **Top 5 clients** — Optionally shows the top 5 clients by query count (when the API provides this data; otherwise displays "not available").
+- **24h queries chart** — Bar chart of hourly queries over the last 24 hours with green (allowed) and red (blocked) segments. Can be disabled in settings.
 - **Blocklist** — Number of domains in the blocklist (gravity).
 
 The plugin uses the **Pi-hole v6+ REST API** (`/api/*`). No API token in the UI; authentication is via session (SID) when a password is set, or no auth when Pi-hole has no password. Layout is responsive and works in portrait or landscape.
@@ -16,7 +19,7 @@ The plugin uses the **Pi-hole v6+ REST API** (`/api/*`). No API token in the UI;
 **Hardware button actions** (requires the [Hardware Buttons](https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons) plugin):
 
 - **Anytime:** *Show Pihole* — Forces the Pi-hole view to display (requires at least one Pi-hole instance in a playlist).
-- **Display actions** (when Pi-hole is on screen): toggle blocking, blocking on, blocking off, or disable blocking for 5 / 30 / 60 minutes. Each display action triggers a refresh after changing the setting.
+- **Display actions** (when Pi-hole is on screen): Map the 6 Display Action slots to Pi-hole actions (toggle blocking, blocking on, blocking off, or disable blocking for 5 / 30 / 60 minutes). Configure the mapping in the plugin settings; changes apply immediately after save (no reload).
 
 **Requirements:**
 
@@ -34,10 +37,10 @@ No additional Python dependencies.
 
 - **Pi-hole URL** — Base URL of your Pi-hole (e.g. `http://192.168.1.100` or `https://pi.hole`). Required.
 - **Allow insecure HTTPS** — Enable if Pi-hole uses a self-signed certificate and you get SSL errors.
-- **Display options** — Optional custom title; toggles for title row, status, queries, queries bar graph, active clients, blocklist. All can be on by default.
+- **Display options** — Optional custom title; toggles for title row, status, queries, queries bar graph, queries forwarded/cached, active clients, top 5 clients, 24h queries chart, blocklist. All can be on by default.
 - **Font** — Family (default: Jost), weight (default: bold), size (x-small to x-large, default: normal).
 
-See the collapsible info boxes in the settings for Pi-hole version/configuration notes and hardware button registration details.
+See the collapsible info boxes in the settings for Pi-hole version/configuration notes, hardware button registration, and display action mapping (which Pi-hole action runs for each Display Action 1–6).
 
 ---
 

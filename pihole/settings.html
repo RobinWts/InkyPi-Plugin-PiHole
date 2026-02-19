@@ -65,6 +65,58 @@
 .pihole-info-box-body a:hover {
     color: rgba(33, 150, 243, 1);
 }
+
+/* Display options: align left, checkboxes in a column */
+.pihole-display-options {
+    align-items: flex-start;
+}
+.pihole-display-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    width: 100%;
+}
+.pihole-option-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+.pihole-checkbox-row {
+    flex-wrap: nowrap;
+}
+.pihole-checkbox-row .form-checkbox {
+    flex-shrink: 0;
+    margin: 0;
+}
+.pihole-checkbox-row .form-label {
+    margin: 0;
+}
+.pihole-option-label {
+    min-width: 140px;
+    flex-shrink: 0;
+}
+
+.pihole-action-mapping {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pihole-mapping-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pihole-mapping-label {
+    min-width: 120px;
+    flex-shrink: 0;
+    margin: 0;
+}
+.pihole-mapping-select {
+    min-width: 180px;
+}
 </style>
 
 <div class="form-group">
@@ -83,42 +135,57 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group pihole-display-options">
     <label class="form-label">Display Options:</label>
-    <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
-        <div class="form-group nowrap">
-            <label for="customTitle" class="form-label">Custom Title (optional):</label>
+    <div class="pihole-display-options-list">
+        <div class="form-group nowrap pihole-option-row">
+            <label for="customTitle" class="form-label pihole-option-label">Custom Title (optional):</label>
             <input type="text" id="customTitle" name="customTitle" class="form-input" placeholder="e.g. Pi-hole Statistics">
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showTitle" name="showTitle" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showTitle" value="false">
-            <label for="showTitle" class="form-label" style="margin-left: 8px;">Show title row</label>
+            <label for="showTitle" class="form-label">Show title row</label>
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showStatus" name="showStatus" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showStatus" value="false">
-            <label for="showStatus" class="form-label" style="margin-left: 8px;">Show status (Enabled/Disabled)</label>
+            <label for="showStatus" class="form-label">Show status (Enabled/Disabled)</label>
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showQueries" name="showQueries" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showQueries" value="false">
-            <label for="showQueries" class="form-label" style="margin-left: 8px;">Show queries (total, blocked, %)</label>
+            <label for="showQueries" class="form-label">Show queries (total, blocked, %)</label>
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showQueriesGraph" name="showQueriesGraph" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showQueriesGraph" value="false">
-            <label for="showQueriesGraph" class="form-label" style="margin-left: 8px;">Show queries bar graph</label>
+            <label for="showQueriesGraph" class="form-label">Show queries bar graph</label>
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+            <input type="checkbox" id="showQueriesForwarded" name="showQueriesForwarded" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showQueriesForwarded" value="false">
+            <label for="showQueriesForwarded" class="form-label">Show queries forwarded and cached</label>
+        </div>
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showClients" name="showClients" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showClients" value="false">
-            <label for="showClients" class="form-label" style="margin-left: 8px;">Show active clients</label>
+            <label for="showClients" class="form-label">Show active clients</label>
         </div>
-        <div class="form-group nowrap">
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+            <input type="checkbox" id="showTopClients" name="showTopClients" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showTopClients" value="false">
+            <label for="showTopClients" class="form-label">Show top 5 clients</label>
+        </div>
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+            <input type="checkbox" id="showHistoryChart" name="showHistoryChart" value="true" class="form-checkbox" checked>
+            <input type="hidden" name="showHistoryChart" value="false">
+            <label for="showHistoryChart" class="form-label">Show 24h queries chart</label>
+        </div>
+        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showBlocklist" name="showBlocklist" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showBlocklist" value="false">
-            <label for="showBlocklist" class="form-label" style="margin-left: 8px;">Show blocklist domains</label>
+            <label for="showBlocklist" class="form-label">Show blocklist domains</label>
         </div>
     </div>
 </div>
@@ -163,16 +230,76 @@
         <ul>
             <li><strong>Show Pihole:</strong> Forces the Pi-hole plugin to display immediately, regardless of what is currently shown. <strong>Requires:</strong> At least one Pi-hole plugin instance must exist in a playlist. If no instance exists, the action will do nothing.</li>
         </ul>
-        <p><strong>Display Actions</strong> (only work when Pi-hole is currently displayed):</p>
-        <ul>
-            <li><strong>Display Action 1:</strong> Toggle blocking — Switches blocking on or off based on current status.</li>
-            <li><strong>Display Action 2:</strong> Blocking off — Disables blocking permanently.</li>
-            <li><strong>Display Action 3:</strong> Blocking on — Enables blocking.</li>
-            <li><strong>Display Action 4:</strong> Blocking off 5 minutes — Temporarily disables blocking for 5 minutes.</li>
-            <li><strong>Display Action 5:</strong> Blocking off 30 minutes — Temporarily disables blocking for 30 minutes.</li>
-            <li><strong>Display Action 6:</strong> Blocking off 1 hour — Temporarily disables blocking for 1 hour.</li>
-        </ul>
-        <p><strong>Plugin Required:</strong> To use these actions, you need to install the <strong>Hardware Buttons</strong> plugin. After installation, configure buttons in the Hardware Buttons plugin settings and bind them to these actions.</p>
+        <p><strong>Display Action Mapping:</strong> In the Hardware Buttons plugin you assign buttons to "Display Action 1" through "Display Action 6". Below you choose which Pi-hole action each slot triggers. Changes apply immediately after save (no reload).</p>
+        <div class="pihole-action-mapping">
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction1" class="form-label pihole-mapping-label">Display Action 1:</label>
+                <select id="displayAction1" name="displayAction1" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction2" class="form-label pihole-mapping-label">Display Action 2:</label>
+                <select id="displayAction2" name="displayAction2" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction3" class="form-label pihole-mapping-label">Display Action 3:</label>
+                <select id="displayAction3" name="displayAction3" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction4" class="form-label pihole-mapping-label">Display Action 4:</label>
+                <select id="displayAction4" name="displayAction4" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction5" class="form-label pihole-mapping-label">Display Action 5:</label>
+                <select id="displayAction5" name="displayAction5" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-mapping-row">
+                <label for="displayAction6" class="form-label pihole-mapping-label">Display Action 6:</label>
+                <select id="displayAction6" name="displayAction6" class="form-input pihole-mapping-select">
+                    <option value="toggle">Toggle blocking</option>
+                    <option value="off">Blocking off (permanent)</option>
+                    <option value="on">Blocking on</option>
+                    <option value="off_5m">Blocking off 5 minutes</option>
+                    <option value="off_30m">Blocking off 30 minutes</option>
+                    <option value="off_1h">Blocking off 1 hour</option>
+                </select>
+            </div>
+        </div>
+        <p><strong>Plugin Required:</strong> To use these actions, you need to install the <strong>Hardware Buttons</strong> plugin. After installation, configure buttons in the Hardware Buttons plugin settings and bind them to Display Action 1–6.</p>
         <p><strong>Installation:</strong> The Hardware Buttons plugin can be found at <a href="https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons" target="_blank" rel="noopener noreferrer">https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons</a></p>
     </div>
 </details>
@@ -188,12 +315,23 @@
             document.getElementById('showStatus').checked = pluginSettings.showStatus !== 'false';
             document.getElementById('showQueries').checked = pluginSettings.showQueries !== 'false';
             document.getElementById('showQueriesGraph').checked = pluginSettings.showQueriesGraph !== 'false';
+            document.getElementById('showQueriesForwarded').checked = pluginSettings.showQueriesForwarded !== 'false';
             document.getElementById('showClients').checked = pluginSettings.showClients !== 'false';
+            document.getElementById('showTopClients').checked = pluginSettings.showTopClients !== 'false';
+            document.getElementById('showHistoryChart').checked = pluginSettings.showHistoryChart !== 'false';
             document.getElementById('showBlocklist').checked = pluginSettings.showBlocklist !== 'false';
 
             document.getElementById('fontFamily').value = pluginSettings.fontFamily || 'Jost';
             document.getElementById('fontWeight').value = pluginSettings.fontWeight || 'bold';
             document.getElementById('fontSize').value = pluginSettings.fontSize || 'normal';
+
+            const displayActionDefaults = ['toggle', 'off', 'on', 'off_5m', 'off_30m', 'off_1h'];
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById('displayAction' + i);
+                if (el) {
+                    el.value = pluginSettings['displayAction' + i] || displayActionDefaults[i - 1];
+                }
+            }
         }
     });
 </script>

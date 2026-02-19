@@ -30,9 +30,10 @@
     </div>
     {% endif %}
 
-    {% if show_queries %}
+    {% if show_queries or show_queries_graph or show_queries_forwarded %}
     <div class="pihole-section pihole-queries">
         <div class="section-label">Queries</div>
+        {% if show_queries %}
         <div class="queries-row">
             <div class="query-item">
                 <span class="query-value">{{ stats.dns_queries_today or 0 }}</span>
@@ -47,6 +48,7 @@
                 <span class="query-label">Blocked %</span>
             </div>
         </div>
+        {% endif %}
         {% if show_queries_graph %}
         <div class="queries-bar-container">
             <div class="queries-bar-track">
@@ -59,6 +61,18 @@
             </div>
         </div>
         {% endif %}
+        {% if show_queries_forwarded %}
+        <div class="queries-row queries-forwarded-row">
+            <div class="query-item">
+                <span class="query-value">{{ stats.queries_forwarded or 0 }}</span>
+                <span class="query-label">Forwarded</span>
+            </div>
+            <div class="query-item">
+                <span class="query-value">{{ stats.queries_cached or 0 }}</span>
+                <span class="query-label">Cached</span>
+            </div>
+        </div>
+        {% endif %}
     </div>
     {% endif %}
 
@@ -66,6 +80,61 @@
     <div class="pihole-section pihole-clients">
         <div class="section-label">Active Clients</div>
         <div class="section-value">{{ stats.active_clients or 0 }}</div>
+    </div>
+    {% endif %}
+
+    {% if show_top_clients %}
+    <div class="pihole-section pihole-top-clients">
+        <div class="section-label">Top Clients</div>
+        {% if top_clients and top_clients|length > 0 %}
+        <ul class="top-clients-list">
+            {% for client in top_clients[:5] %}
+            <li class="top-client-item">
+                <span class="top-client-name">{{ client.name }}</span>
+                <span class="top-client-count">{{ client.count }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="top-clients-unavailable">not available</div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if show_history_chart %}
+    <div class="pihole-section pihole-history-chart">
+        <div class="section-label">Queries per hour (24h)</div>
+        {% if history_hours and history_hours|length > 0 %}
+        <div class="history-chart-container">
+            <div class="history-chart-bars">
+                {% for h in history_hours %}
+                {% set total = h.total or 0 %}
+                {% set allowed = h.allowed or 0 %}
+                {% set blocked = h.blocked or 0 %}
+                {% set bar_pct = (total / chart_max * 100) if chart_max and chart_max > 0 else 0 %}
+                {% set allowed_pct = (allowed / total * 100) if total > 0 else 0 %}
+                {% set blocked_pct = (blocked / total * 100) if total > 0 else 0 %}
+                <div class="history-bar-wrap" title="{{ h.hour }}h: {{ total }} ({{ blocked }} blocked)">
+                    <div class="history-bar" style="height: {{ [bar_pct, 100]|min }}%;">
+                        <div class="history-bar-segment history-bar-allowed" style="height: {{ allowed_pct }}%;"></div>
+                        <div class="history-bar-segment history-bar-blocked" style="height: {{ blocked_pct }}%;"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history-chart-labels">
+                <span>24h ago</span>
+                <span>12h</span>
+                <span>now</span>
+            </div>
+            <div class="history-chart-legend">
+                <span class="history-legend-item"><span class="history-legend-swatch history-legend-allowed"></span> Allowed</span>
+                <span class="history-legend-item"><span class="history-legend-swatch history-legend-blocked"></span> Blocked</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="top-clients-unavailable">not available</div>
+        {% endif %}
     </div>
     {% endif %}
 
