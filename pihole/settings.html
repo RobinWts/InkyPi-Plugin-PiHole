@@ -15,114 +15,180 @@
     </div>
 </details>
 <style>
-.pihole-info-box {
-    padding: 16px;
-    background: rgba(33, 150, 243, 0.1);
-    border: 1px solid rgba(33, 150, 243, 0.3);
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-.pihole-info-box-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: bold;
-    color: var(--text-primary, #333);
-    font-size: 14px;
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
-}
-.pihole-info-box-header::-webkit-details-marker { display: none; }
-.pihole-info-box-header::marker { display: none; }
-.pihole-info-box-icon { font-size: 20px; flex-shrink: 0; }
-.pihole-info-box-title { flex: 1; }
-.pihole-info-box-body {
-    margin-top: 12px;
-    padding-left: 32px;
-}
-.pihole-info-box-body p {
-    margin: 0 0 8px 0;
-    color: var(--text-secondary, #666);
-    font-size: 13px;
-    line-height: 1.5;
-}
-.pihole-info-box-body p:last-child { margin-bottom: 0; }
-.pihole-info-box-body ul {
-    margin: 4px 0 8px 0;
-    padding-left: 20px;
-    color: var(--text-secondary, #666);
-    font-size: 13px;
-    line-height: 1.5;
-}
-.pihole-info-box-body li {
-    margin-bottom: 4px;
-}
-.pihole-info-box-body a {
-    color: rgba(33, 150, 243, 0.9);
-    text-decoration: underline;
-}
-.pihole-info-box-body a:hover {
-    color: rgba(33, 150, 243, 1);
-}
+    .pihole-info-box {
+        padding: 16px;
+        background: rgba(33, 150, 243, 0.1);
+        border: 1px solid rgba(33, 150, 243, 0.3);
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 
-/* Display options: align left, checkboxes in a column */
-.pihole-display-options {
-    align-items: flex-start;
+    .pihole-info-box-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: bold;
+        color: var(--text-primary, #333);
+        font-size: 14px;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+    }
+
+    .pihole-info-box-header::-webkit-details-marker {
+        display: none;
+    }
+
+    .pihole-info-box-header::marker {
+        display: none;
+    }
+
+    .pihole-info-box-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .pihole-info-box-title {
+        flex: 1;
+    }
+
+    .pihole-info-box-body {
+        margin-top: 12px;
+        padding-left: 32px;
+    }
+
+    .pihole-info-box-body p {
+        margin: 0 0 8px 0;
+        color: var(--text-secondary, #666);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .pihole-info-box-body p:last-child {
+        margin-bottom: 0;
+    }
+
+    .pihole-info-box-body ul {
+        margin: 4px 0 8px 0;
+        padding-left: 20px;
+        color: var(--text-secondary, #666);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .pihole-info-box-body li {
+        margin-bottom: 4px;
+    }
+
+    .pihole-info-box-body a {
+        color: rgba(33, 150, 243, 0.9);
+        text-decoration: underline;
+    }
+
+    .pihole-info-box-body a:hover {
+        color: rgba(33, 150, 243, 1);
+    }
+
+    /* Display options: align left, checkboxes in a column */
+    .pihole-display-options {
+        align-items: flex-start;
+    }
+
+.pihole-title-row {
+    margin-bottom: 8px;
 }
 .pihole-display-options-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    align-items: start;
+    width: 100%;
+}
+.pihole-display-options-col {
     display: flex;
     flex-direction: column;
     gap: 8px;
     align-items: flex-start;
-    width: 100%;
 }
-.pihole-option-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-}
-.pihole-checkbox-row {
-    flex-wrap: nowrap;
-}
-.pihole-checkbox-row .form-checkbox {
-    flex-shrink: 0;
-    margin: 0;
-}
-.pihole-checkbox-row .form-label {
-    margin: 0;
-}
-.pihole-option-label {
-    min-width: 140px;
-    flex-shrink: 0;
+@media (max-width: 600px) {
+    .pihole-display-options-list {
+        grid-template-columns: 1fr;
+    }
 }
 
-.pihole-action-mapping {
-    margin: 12px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.pihole-mapping-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.pihole-mapping-label {
-    min-width: 120px;
-    flex-shrink: 0;
-    margin: 0;
-}
-.pihole-mapping-select {
-    min-width: 180px;
-}
+    .pihole-option-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .pihole-checkbox-row {
+        flex-wrap: nowrap;
+    }
+
+    .pihole-checkbox-row .form-checkbox {
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .pihole-checkbox-row .form-label {
+        margin: 0;
+    }
+
+    .pihole-option-label {
+        min-width: 140px;
+        flex-shrink: 0;
+    }
+
+    .pihole-action-mapping {
+        margin: 12px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pihole-mapping-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .pihole-mapping-label {
+        min-width: 120px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .pihole-mapping-select {
+        min-width: 180px;
+    }
+
+    .pihole-option-group {
+        margin: 4px 0;
+        padding-left: 8px;
+        border-left: 3px solid rgba(33, 150, 243, 0.4);
+    }
+
+    .pihole-option-group-label {
+        font-size: 12px;
+        color: var(--text-secondary, #666);
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    .pihole-option-group-items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
 </style>
 
 <div class="form-group">
     <div class="form-group nowrap">
         <label for="piholeUrl" class="form-label">Pi-hole URL:</label>
-        <input type="text" id="piholeUrl" name="piholeUrl" placeholder="http://192.168.1.100" required class="form-input">
+        <input type="text" id="piholeUrl" name="piholeUrl" placeholder="http://192.168.1.100" required
+            class="form-input">
     </div>
 </div>
 
@@ -137,12 +203,14 @@
 
 <div class="form-group pihole-display-options">
     <label class="form-label">Display Options:</label>
+    <div class="form-group nowrap pihole-option-row pihole-title-row">
+        <label for="customTitle" class="form-label pihole-option-label">Custom Title (optional):</label>
+        <input type="text" id="customTitle" name="customTitle" class="form-input"
+            placeholder="e.g. Pi-hole Statistics">
+    </div>
     <div class="pihole-display-options-list">
-        <div class="form-group nowrap pihole-option-row">
-            <label for="customTitle" class="form-label pihole-option-label">Custom Title (optional):</label>
-            <input type="text" id="customTitle" name="customTitle" class="form-input" placeholder="e.g. Pi-hole Statistics">
-        </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+        <div class="pihole-display-options-col">
+            <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
             <input type="checkbox" id="showTitle" name="showTitle" value="true" class="form-checkbox" checked>
             <input type="hidden" name="showTitle" value="false">
             <label for="showTitle" class="form-label">Show title row</label>
@@ -152,40 +220,48 @@
             <input type="hidden" name="showStatus" value="false">
             <label for="showStatus" class="form-label">Show status (Enabled/Disabled)</label>
         </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showQueries" name="showQueries" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showQueries" value="false">
-            <label for="showQueries" class="form-label">Show queries (total, blocked, %)</label>
+        <div class="pihole-option-group">
+            <div class="pihole-option-group-label">Queries box:</div>
+            <div class="pihole-option-group-items">
+                <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                    <input type="checkbox" id="showQueries" name="showQueries" value="true" class="form-checkbox"
+                        checked>
+                    <input type="hidden" name="showQueries" value="false">
+                    <label for="showQueries" class="form-label">Total, blocked, %</label>
+                </div>
+                <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                    <input type="checkbox" id="showQueriesGraph" name="showQueriesGraph" value="true"
+                        class="form-checkbox" checked>
+                    <input type="hidden" name="showQueriesGraph" value="false">
+                    <label for="showQueriesGraph" class="form-label">Bar graph</label>
+                </div>
+                <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                    <input type="checkbox" id="showQueriesForwarded" name="showQueriesForwarded" value="true"
+                        class="form-checkbox" checked>
+                    <input type="hidden" name="showQueriesForwarded" value="false">
+                    <label for="showQueriesForwarded" class="form-label">Forwarded and cached</label>
+                </div>
+            </div>
         </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showQueriesGraph" name="showQueriesGraph" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showQueriesGraph" value="false">
-            <label for="showQueriesGraph" class="form-label">Show queries bar graph</label>
         </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showQueriesForwarded" name="showQueriesForwarded" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showQueriesForwarded" value="false">
-            <label for="showQueriesForwarded" class="form-label">Show queries forwarded and cached</label>
-        </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showClients" name="showClients" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showClients" value="false">
-            <label for="showClients" class="form-label">Show active clients</label>
-        </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showTopClients" name="showTopClients" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showTopClients" value="false">
-            <label for="showTopClients" class="form-label">Show top 5 clients</label>
-        </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showHistoryChart" name="showHistoryChart" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showHistoryChart" value="false">
-            <label for="showHistoryChart" class="form-label">Show 24h queries chart</label>
-        </div>
-        <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
-            <input type="checkbox" id="showBlocklist" name="showBlocklist" value="true" class="form-checkbox" checked>
-            <input type="hidden" name="showBlocklist" value="false">
-            <label for="showBlocklist" class="form-label">Show blocklist domains</label>
+        <div class="pihole-display-options-col">
+            <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                <input type="checkbox" id="showClientsBlocklist" name="showClientsBlocklist" value="true"
+                    class="form-checkbox" checked>
+                <input type="hidden" name="showClientsBlocklist" value="false">
+                <label for="showClientsBlocklist" class="form-label">Show clients & blocklist box</label>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                <input type="checkbox" id="showTopClients" name="showTopClients" value="true" class="form-checkbox" checked>
+                <input type="hidden" name="showTopClients" value="false">
+                <label for="showTopClients" class="form-label">Show top 5 clients</label>
+            </div>
+            <div class="form-group nowrap pihole-option-row pihole-checkbox-row">
+                <input type="checkbox" id="showHistoryChart" name="showHistoryChart" value="true" class="form-checkbox"
+                    checked>
+                <input type="hidden" name="showHistoryChart" value="false">
+                <label for="showHistoryChart" class="form-label">Show 24h queries chart</label>
+            </div>
         </div>
     </div>
 </div>
@@ -194,7 +270,7 @@
     <label for="fontFamily" class="form-label">Font Family:</label>
     <select id="fontFamily" name="fontFamily" class="form-input">
         {% for font in font_families %}
-        <option value="{{ font }}" {% if font == 'Jost' %}selected{% endif %}>{{ font }}</option>
+        <option value="{{ font }}" {% if font=='Jost' %}selected{% endif %}>{{ font }}</option>
         {% endfor %}
     </select>
 </div>
@@ -203,7 +279,7 @@
     <label for="fontWeight" class="form-label">Font Weight:</label>
     <select id="fontWeight" name="fontWeight" class="form-input">
         {% for w in font_weights %}
-        <option value="{{ w }}" {% if w == 'bold' %}selected{% endif %}>{{ w | capitalize }}</option>
+        <option value="{{ w }}" {% if w=='bold' %}selected{% endif %}>{{ w | capitalize }}</option>
         {% endfor %}
     </select>
 </div>
@@ -225,12 +301,17 @@
         <span class="pihole-info-box-title">Hardware buttons registration (click to expand)</span>
     </summary>
     <div class="pihole-info-box-body">
-        <p><strong>Hardware Button Actions:</strong> This plugin registers actions that can be bound to physical buttons using the Hardware Buttons plugin.</p>
+        <p><strong>Hardware Button Actions:</strong> This plugin registers actions that can be bound to physical buttons
+            using the Hardware Buttons plugin.</p>
         <p><strong>Anytime Action:</strong></p>
         <ul>
-            <li><strong>Show Pihole:</strong> Forces the Pi-hole plugin to display immediately, regardless of what is currently shown. <strong>Requires:</strong> At least one Pi-hole plugin instance must exist in a playlist. If no instance exists, the action will do nothing.</li>
+            <li><strong>Show Pihole:</strong> Forces the Pi-hole plugin to display immediately, regardless of what is
+                currently shown. <strong>Requires:</strong> At least one Pi-hole plugin instance must exist in a
+                playlist. If no instance exists, the action will do nothing.</li>
         </ul>
-        <p><strong>Display Action Mapping:</strong> In the Hardware Buttons plugin you assign buttons to "Display Action 1" through "Display Action 6". Below you choose which Pi-hole action each slot triggers. Changes apply immediately after save (no reload).</p>
+        <p><strong>Display Action Mapping:</strong> In the Hardware Buttons plugin you assign buttons to "Display Action
+            1" through "Display Action 6". Below you choose which Pi-hole action each slot triggers. Changes apply
+            immediately after save (no reload).</p>
         <div class="pihole-action-mapping">
             <div class="form-group nowrap pihole-option-row pihole-mapping-row">
                 <label for="displayAction1" class="form-label pihole-mapping-label">Display Action 1:</label>
@@ -299,8 +380,12 @@
                 </select>
             </div>
         </div>
-        <p><strong>Plugin Required:</strong> To use these actions, you need to install the <strong>Hardware Buttons</strong> plugin. After installation, configure buttons in the Hardware Buttons plugin settings and bind them to Display Action 1–6.</p>
-        <p><strong>Installation:</strong> The Hardware Buttons plugin can be found at <a href="https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons" target="_blank" rel="noopener noreferrer">https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons</a></p>
+        <p><strong>Plugin Required:</strong> To use these actions, you need to install the <strong>Hardware
+                Buttons</strong> plugin. After installation, configure buttons in the Hardware Buttons plugin settings
+            and bind them to Display Action 1–6.</p>
+        <p><strong>Installation:</strong> The Hardware Buttons plugin can be found at <a
+                href="https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons" target="_blank"
+                rel="noopener noreferrer">https://github.com/RobinWts/InkyPi-Plugin-hardwarebuttons</a></p>
     </div>
 </details>
 
@@ -316,10 +401,14 @@
             document.getElementById('showQueries').checked = pluginSettings.showQueries !== 'false';
             document.getElementById('showQueriesGraph').checked = pluginSettings.showQueriesGraph !== 'false';
             document.getElementById('showQueriesForwarded').checked = pluginSettings.showQueriesForwarded !== 'false';
-            document.getElementById('showClients').checked = pluginSettings.showClients !== 'false';
+            let showCB = pluginSettings.showClientsBlocklist;
+            if (showCB === undefined || showCB === null || showCB === '') {
+                showCB = (pluginSettings.showClients === 'true' || pluginSettings.showClients === true ||
+                    pluginSettings.showBlocklist === 'true' || pluginSettings.showBlocklist === true) ? 'true' : 'false';
+            }
+            document.getElementById('showClientsBlocklist').checked = (showCB === 'true' || showCB === true);
             document.getElementById('showTopClients').checked = pluginSettings.showTopClients !== 'false';
             document.getElementById('showHistoryChart').checked = pluginSettings.showHistoryChart !== 'false';
-            document.getElementById('showBlocklist').checked = pluginSettings.showBlocklist !== 'false';
 
             document.getElementById('fontFamily').value = pluginSettings.fontFamily || 'Jost';
             document.getElementById('fontWeight').value = pluginSettings.fontWeight || 'bold';

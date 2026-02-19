@@ -77,14 +77,20 @@ class Pihole(BasePlugin):
         show_queries = settings.get("showQueries", "true").lower() == "true"
         show_queries_graph = settings.get("showQueriesGraph", "true").lower() == "true"
         show_queries_forwarded = settings.get("showQueriesForwarded", "true").lower() == "true"
-        show_clients = settings.get("showClients", "true").lower() == "true"
+        show_clients_blocklist_raw = settings.get("showClientsBlocklist", "").lower()
+        if show_clients_blocklist_raw == "":
+            show_clients_blocklist = (
+                settings.get("showClients", "true").lower() == "true"
+                or settings.get("showBlocklist", "true").lower() == "true"
+            )
+        else:
+            show_clients_blocklist = show_clients_blocklist_raw == "true"
         show_top_clients = settings.get("showTopClients", "true").lower() == "true"
         show_history_chart = settings.get("showHistoryChart", "true").lower() == "true"
-        show_blocklist = settings.get("showBlocklist", "true").lower() == "true"
 
         # Fallback: never render an empty page - if all content toggles are off, show all
-        if not any((show_status, show_queries, show_queries_graph, show_queries_forwarded, show_clients, show_top_clients, show_history_chart, show_blocklist)):
-            show_status = show_queries = show_queries_graph = show_queries_forwarded = show_clients = show_top_clients = show_history_chart = show_blocklist = True
+        if not any((show_status, show_queries, show_queries_graph, show_queries_forwarded, show_clients_blocklist, show_top_clients, show_history_chart)):
+            show_status = show_queries = show_queries_graph = show_queries_forwarded = show_clients_blocklist = show_top_clients = show_history_chart = True
 
         font_scale = {"x-small": 0.75, "small": 0.9, "normal": 1.0, "large": 1.15, "x-large": 1.3}.get(
             settings.get("fontSize", "normal"), 1.0
@@ -130,13 +136,12 @@ class Pihole(BasePlugin):
             "show_queries": show_queries,
             "show_queries_graph": show_queries_graph,
             "show_queries_forwarded": show_queries_forwarded,
-            "show_clients": show_clients,
+            "show_clients_blocklist": show_clients_blocklist,
             "show_top_clients": show_top_clients,
             "top_clients": top_clients,
             "show_history_chart": show_history_chart,
             "history_hours": history_hours,
             "chart_max": chart_max,
-            "show_blocklist": show_blocklist,
             "font_family": font_family,
             "font_weight": font_weight,
             "font_scale": font_scale,
